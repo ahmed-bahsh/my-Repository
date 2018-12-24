@@ -1,0 +1,318 @@
+
+<ng-template #modalContent let-close="close" >
+  <div class="modal-header" >
+    <h3 style="text-align: center">
+  Edit events
+</h3>
+    <button  type="button" class="btn btn-outline-secondary close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div >
+
+  <div class="clearfix"></div>
+    <br>
+
+<table class="table table-bordered">
+
+  <thead>
+    <tr style="color: black;">
+      <th>Information</th>
+            <th>Driver Name</th>
+      <th>Student Name</th>
+      <th>Car Name</th>
+
+      <th>Starts at</th>
+      <th>Ends at</th>
+
+    </tr>
+  </thead>
+   <tbody>
+    <tr *ngIf="event2 !== null">
+      <td>
+       <textarea
+       style="height: 100px; width: 150px;"
+          type="text"
+          class="form-control"
+          [(ngModel)]="event2.title"
+          (keyup)="refresh.next()" >
+       </textarea>
+      </td>
+      <td>
+            <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="event2.Dname"
+          (keyup)="refresh.next()" >
+      </td>
+      <td>
+            <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="event2.Sname"
+          (keyup)="refresh.next()" >
+      </td>
+      <td>
+            <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="event2.Cname"
+          (keyup)="refresh.next()" >
+
+       
+      </td>
+      <td>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="event2.start"
+          (ngModelChange)="refresh.next()"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set">
+      </td>
+      <td>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="event2.end"
+          (ngModelChange)="refresh.next()"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+  </div>
+</ng-template>
+
+<div class="row text-center" >
+  <div class="col-md-12">
+    <div class="btn-group">
+      <div
+        class="btn btn-primary"
+        style="border-radius: 25px;"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="activeDayIsOpen = false">
+        Previous
+      </div>
+      <div
+        class="btn btn-outline-secondary"
+         style="border-radius: 25px;"
+        mwlCalendarToday
+        [(viewDate)]="viewDate">
+        Today
+      </div>
+      <div
+        class="btn btn-primary"
+        mwlCalendarNextView
+         style="border-radius: 25px; "
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="activeDayIsOpen = false">
+        Next
+      </div>
+    <div  style="border-radius: 25px;" class="btn btn-secondary" (click)="_toggleSidebar()">Add Event</div>
+    </div>
+  </div>
+  <br><br><br><br><br>
+    <div class="row " >
+    </div>  
+<ng-sidebar-container style="height: 50vh; width: 207vh; display: block; ">
+
+<ng-sidebar [(opened)]="_opened" position="right">
+  <br><br><br><br><br>
+  <div style="border-style: groove solid; background-color: white;">
+
+<h3>
+  Add Events
+</h3>
+
+  <button
+    class="btn btn-primary pull-right"
+    (click)="addEvent()">
+    Add new
+  </button>
+  <div class="clearfix"></div>
+
+<table class="table table-bordered">
+
+  <thead>
+    <tr>
+      <th>Driver Name</th>
+      <th>Car Name</th>
+      <th>Student Name</th>
+      <th>Primary color</th>
+      <th>Secondary color</th>
+      <th>Starts at</th>
+      <th>Ends at</th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr >
+      <td>
+        <select class="selectpicker btn btn-outline-primary " [(ngModel)]="driveSelected">
+          <option *ngFor="let driv of driver" [value]="driv.name"> {{driv.name}} </option>
+        </select>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="driveSelected"
+          (keyup)="refresh.next()" hidden="hidden">
+      </td>
+        <td>
+        <select class="selectpicker btn btn-outline-primary" [(ngModel)]="carSelected">
+          <option *ngFor="let ca of car" [value]="ca.name"> {{ca.name}} </option>
+        </select>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="carSelected"
+          (keyup)="refresh.next()" hidden="hidden">
+      </td>
+      <td>
+         <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="studentName"
+          (keyup)="refresh.next()" required="required">
+      </td>
+      <td>
+        <input
+          type="color"
+          [(ngModel)]="color"
+          (change)="refresh.next()">
+      </td>
+      <td>
+        <input
+          type="color"
+          [(ngModel)]="color"
+          (change)="refresh.next()">
+      </td>
+      <td>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="start"
+          (ngModelChange)="refresh.next()"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set">
+      </td>
+      <td>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="end"
+          (ngModelChange)="refresh.next()"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set">
+      </td>
+      
+    </tr>
+  </tbody>
+
+</table>
+  </div>
+  </ng-sidebar>
+<div ng-sidebar-content>
+
+
+  </div>
+  </ng-sidebar-container>
+    <br><br><br><br><br>
+  <br><br><br><br><br>
+  <br><br><br><br><br>
+
+
+</div>
+  <div class="btn-primary"  style="height: 90px;  border-radius: 25px;
+ position: absolute; text-align: center; top: 1px; left: 1200px;"> 
+ <label style="font-family: inherit; text-align: center; font-size: 20px;">Search Event  </label>
+<input type="text" [(ngModel)]="carfilter.name" style="  border-radius: 25px;" placeholder=" Type to Search for Event">
+  </div>
+<div class="col-md-12" >
+   <div class="col-md-12">
+    <h4>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h4>
+    
+  
+</div>
+  <div class="col-md-12">
+    <div class="btn-group">
+      <div
+        class="btn btn-primary"
+        (click)="view = CalendarView.Month"
+        [class.active]="view === CalendarView.Month">
+        Month
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="view = CalendarView.Week"
+        [class.active]="view === CalendarView.Week">
+        Week
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="view = CalendarView.Day"
+        [class.active]="view === CalendarView.Day">
+        Day
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div [ngSwitch]="view">
+  <mwl-calendar-month-view
+    *ngSwitchCase="CalendarView.Month"
+    [viewDate]="viewDate"
+    [events]="getEvents()"
+    [refresh]="refresh"
+    [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view
+    *ngSwitchCase="CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="getEvents()"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-week-view>
+  <mwl-calendar-day-view
+    *ngSwitchCase="CalendarView.Day"
+    [viewDate]="viewDate"
+    [events]="getEvents()"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-day-view>
+</div>
+
